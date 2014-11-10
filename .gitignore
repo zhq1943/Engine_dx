@@ -21,6 +21,10 @@ $RECYCLE.BIN/
 # OSX
 # =========================
 
+#ignore debug path
+Debug/
+ipch/
+
 .DS_Store
 .AppleDouble
 .LSOverride
