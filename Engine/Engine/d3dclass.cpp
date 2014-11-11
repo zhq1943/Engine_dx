@@ -1,5 +1,5 @@
 #include "d3dclass.h"
-
+#include <vector>
 D3DClass::D3DClass()
 {
 	m_swapChain = 0;
@@ -86,8 +86,10 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight,bool vsync, HWND hwn
 		return false;
 	}
 
+	/*std::vector<UINT> numwidth;*/
 	for (i = 0; i<numModes; i++)
 	{
+		/*numwidth.push_back(displayModeList[i].Width);*/
 		if (displayModeList[i].Width == (unsigned int)screenWidth)
 		{
 			if (displayModeList[i].Height == (unsigned int)screenHeight)
@@ -160,7 +162,7 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight,bool vsync, HWND hwn
 		swapChainDesc.Windowed = true;
 	}
 
-	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCALING_UNSPECIFIED;
+	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
@@ -249,7 +251,7 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight,bool vsync, HWND hwn
 
 	m_deviceContext->OMSetDepthStencilState(m_depthStencilState, 1);
 
-	ZeroMemory(&depthStencilDesc, sizeof(depthStencilViewDesc));
+	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
 
 	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
@@ -306,5 +308,124 @@ bool D3DClass::Initialize(int screenWidth, int screenHeight,bool vsync, HWND hwn
 
 void D3DClass::Shutdown()
 {
+	if (m_swapChain)
+	{
+		m_swapChain->SetFullscreenState(false, NULL);
+	}
 
+	if (m_rasterState)
+	{
+		m_rasterState->Release();
+		m_rasterState = 0;
+	}
+
+	if (m_depthStencilView)
+	{
+		m_depthStencilView->Release();
+		m_depthStencilView = 0;
+	}
+
+	if (m_depthStencilState)
+	{
+		m_depthStencilState->Release();
+		m_depthStencilState = 0;
+	}
+
+	if (m_depthStencilBuffer)
+	{
+		m_depthStencilBuffer->Release();
+		m_depthStencilBuffer = 0;
+	}
+
+	if (m_rendertargetview)
+	{
+		m_rendertargetview->Release();
+		m_rendertargetview = 0;
+	}
+
+	if (m_deviceContext)
+	{
+		m_deviceContext->Release();
+		m_deviceContext = 0;
+	}
+
+	if (m_device)
+	{
+		m_device->Release();
+		m_device = 0;
+	}
+
+	if (m_swapChain)
+	{
+		m_swapChain->Release();
+		m_swapChain = 0;
+	}
+
+	return ;
+}
+
+void D3DClass::BeginScene(float red, float green, float blue, float alpha)
+{
+	float color[4];
+
+	color[0] = red;
+	color[1] = green;
+	color[2] = blue;
+	color[3] = alpha;
+
+	m_deviceContext->ClearRenderTargetView(m_rendertargetview, color);
+
+	m_deviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH,1.0f, 0);
+
+	return;
+}
+
+void D3DClass::EndScene()
+{
+	if (m_vsync_enabled)
+	{
+		m_swapChain->Present(1,0);
+	}
+	else
+	{
+		m_swapChain->Present(0,0);
+
+	}
+
+	return ;
+}
+
+ID3D11Device* D3DClass::GetDevice()
+{
+	return m_device;
+}
+
+ID3D11DeviceContext* D3DClass::GetDeviceContext()
+{
+	return m_deviceContext;
+}
+
+void D3DClass::GetProjectionMatrix(D3DXMATRIX& projectionMatrix)
+{
+	projectionMatrix = m_projectionMatrix;
+	return ;
+}
+
+void D3DClass::GetWorldMatrix(D3DXMATRIX& worldMatrix)
+{
+	worldMatrix = m_worldMatrix;
+	return;
+}
+
+void D3DClass::GetOrthoMatrix(D3DXMATRIX& orthoMatrix)
+{
+	orthoMatrix = m_orthoMatrix;
+	return;
+}
+
+void D3DClass::GetVideoCardInfo(char* charName, int& memory)
+{
+	strcpy_s(charName, 128, m_videoCardDescription);
+	memory = m_videoCardMemory;
+	return;
 }

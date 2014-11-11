@@ -157,8 +157,8 @@ void SystemClass::InitializeWindows( int& screenWidth, int& screenHeight)
 
 	RegisterClassEx(&wc);
 
-	screenHeight = GetSystemMetrics(SM_CXSCREEN);
-	screenWidth  = GetSystemMetrics(SM_CYSCREEN);
+	screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	screenHeight  = GetSystemMetrics(SM_CYSCREEN);
 
 	if (FULL_SCREEN)
 	{

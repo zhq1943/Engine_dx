@@ -13,6 +13,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+*.sdf
 
 # =========================
 # Operating System Files
@@ -26,7 +27,7 @@ Debug/
 ipch/
 
 #ignore sdf file
-*.sdf
+
 
 .DS_Store
 .AppleDouble
@@ -49,4 +50,3 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-*.sdf

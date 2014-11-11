@@ -45,4 +45,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Color.vs" />
+    <None Include="Color.ps" />
+  </ItemGroup>
 </Project>
