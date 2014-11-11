@@ -25,6 +25,9 @@ $RECYCLE.BIN/
 Debug/
 ipch/
 
+#ignore sdf file
+*.sdf
+
 .DS_Store
 .AppleDouble
 .LSOverride
