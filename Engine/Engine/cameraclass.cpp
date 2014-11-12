@@ -65,4 +65,23 @@ void CameraClass::Render()
 	lookAt.z = 1.0f;
 
 	pitch = m_rotationX*0.01745332925f;
+	yaw = m_rotationY*0.01745332925f;
+	roll = m_rotationZ*0.01745332925f;
+
+	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
+
+	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
+	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);
+
+	lookAt = position + lookAt;
+
+	D3DXMatrixLookAtLH(&m_viewMatrix, &position, &lookAt, &up);
+
+	return;
+}
+
+void CameraClass::GetViewMatrix(D3DXMATRIX& viewMatrix)
+{
+	viewMatrix = m_viewMatrix;
+	return;
 }

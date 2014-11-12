@@ -28,11 +28,6 @@ bool ModelClass::Initialize(ID3D11Device* device)
 	return true;
 }
 
-void ModelClass::Shutdown()
-{
-	ShutdownBuffers();
-	return;
-}
 
 void ModelClass::Render(ID3D11DeviceContext* deviceContext)
 {
@@ -53,9 +48,9 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 	HRESULT result;
 
-	m_vertexCount = 3;
+	m_vertexCount = 4;
 
-	m_indexCount = 3;
+	m_indexCount = 6;
 
 	vertice = new VertexType[m_vertexCount];
 	if (!vertice)
@@ -70,17 +65,25 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	}
 
 	vertice[0].position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
-	vertice[0].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertice[0].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f);
 
-	vertice[0].position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	vertice[0].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertice[1].position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
+	vertice[1].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f);
 
-	vertice[0].position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
-	vertice[0].color = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f);
+	vertice[2].position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+	vertice[2].color = D3DXVECTOR4(1.0f,0.0f, 0.0f, 1.0f);
+
+ 	vertice[3].position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
+ 	vertice[3].color = D3DXVECTOR4(1.0f,0.0f, 0.0f, 1.0f);
 
 	indices[0] = 0;
 	indices[1] = 1;
     indices[2] = 2;
+
+	indices[3] = 2;
+	indices[4] = 3;
+	indices[5] = 0;
+		
 
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexBufferDesc.ByteWidth = sizeof(VertexType)*m_vertexCount;
