@@ -60,16 +60,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cameraclass.cpp" />
+    <ClCompile Include="ColorShaderClass.cpp" />
     <ClCompile Include="d3dclass.cpp" />
     <ClCompile Include="graphicsclass.cpp" />
     <ClCompile Include="inputclass.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ModelClass.cpp" />
     <ClCompile Include="Systemclass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cameraclass.h" />
+    <ClInclude Include="Colorshaderclass.h" />
     <ClInclude Include="d3dclass.h" />
     <ClInclude Include="graphicsclass.h" />
     <ClInclude Include="inputclass.h" />
+    <ClInclude Include="ModelClass.h" />
     <ClInclude Include="systemclass.h" />
   </ItemGroup>
   <ItemGroup>
