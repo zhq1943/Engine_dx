@@ -65,9 +65,13 @@
     <ClCompile Include="d3dclass.cpp" />
     <ClCompile Include="graphicsclass.cpp" />
     <ClCompile Include="inputclass.cpp" />
+    <ClCompile Include="Lightclass.cpp" />
+    <ClCompile Include="Lightshaderclass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ModelClass.cpp" />
     <ClCompile Include="Systemclass.cpp" />
+    <ClCompile Include="Textureclass.cpp" />
+    <ClCompile Include="Textureshaderclass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cameraclass.h" />
@@ -75,12 +79,20 @@
     <ClInclude Include="d3dclass.h" />
     <ClInclude Include="graphicsclass.h" />
     <ClInclude Include="inputclass.h" />
+    <ClInclude Include="lightclass.h" />
+    <ClInclude Include="Lightshaderclass.h" />
     <ClInclude Include="ModelClass.h" />
     <ClInclude Include="systemclass.h" />
+    <ClInclude Include="Textureclass.h" />
+    <ClInclude Include="Textureshaderclass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Color.ps" />
     <None Include="Color.vs" />
+    <None Include="light.ps" />
+    <None Include="light.vs" />
+    <None Include="texture.ps" />
+    <None Include="texture.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

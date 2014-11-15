@@ -4,6 +4,8 @@ ModelClass::ModelClass()
 {
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
+
+	m_Texture = 0;
 }
 
 ModelClass::ModelClass(const ModelClass& other)
@@ -16,11 +18,17 @@ ModelClass::~ModelClass()
 
 }
 
-bool ModelClass::Initialize(ID3D11Device* device)
+bool ModelClass::Initialize(ID3D11Device* device, WCHAR* textureFilename)
 {
 	bool result;
 
 	result = InitializeBuffers(device);
+	if (!result)
+	{
+		return false;
+	}
+
+	result = LoadTexture(device, textureFilename);
 	if (!result)
 	{
 		return false;
@@ -64,25 +72,29 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 		return false;
 	}
 
-	vertice[0].position = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);
-	vertice[0].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f);
+	vertice[0].position = D3DXVECTOR3(-2.0f, 2.0f, 0.0f);
+	vertice[0].texture = D3DXVECTOR2(0.0f, 0.0f);
+	vertice[0].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
-	vertice[1].position = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);
-	vertice[1].color = D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f);
+	vertice[1].position = D3DXVECTOR3(2.0f, 2.0f, 0.0f);
+	vertice[1].texture = D3DXVECTOR2(1.0f, 0.0f);
+	vertice[1].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
-	vertice[2].position = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-	vertice[2].color = D3DXVECTOR4(1.0f,0.0f, 0.0f, 1.0f);
+	vertice[2].position = D3DXVECTOR3(2.0f, -2.0f, 0.0f);
+	vertice[2].texture = D3DXVECTOR2(1.0f, 1.0f);
+	vertice[2].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
- 	vertice[3].position = D3DXVECTOR3(1.0f, -1.0f, 0.0f);
- 	vertice[3].color = D3DXVECTOR4(1.0f,0.0f, 0.0f, 1.0f);
+  	vertice[3].position = D3DXVECTOR3(-2.0f, -2.0f, 0.0f);
+ 	vertice[3].texture = D3DXVECTOR2(0.0f, 1.0f);
+	vertice[3].normal = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	indices[0] = 0;
 	indices[1] = 1;
     indices[2] = 2;
 
-	indices[3] = 2;
-	indices[4] = 3;
-	indices[5] = 0;
+ 	indices[3] = 2;
+ 	indices[4] = 3;
+ 	indices[5] = 0;
 		
 
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -130,17 +142,8 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 
 void ModelClass::Shutdown()
 {
-	if (m_indexBuffer)
-	{
-		m_indexBuffer->Release();
-		m_indexBuffer = 0;
-	}
-
-	if (m_vertexBuffer)
-	{
-		m_vertexBuffer->Release();
-		m_vertexBuffer = 0;
-	}
+	ReleaseTexture();
+	ShutdownBuffers();
 
 	return ;
 }
@@ -158,6 +161,59 @@ void ModelClass::RenderBuffer(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	return;
+}
+
+void ModelClass::ShutdownBuffers()
+{
+	if (m_indexBuffer)
+	{
+		m_indexBuffer->Release();
+		m_indexBuffer = 0;
+	}
+
+	if (m_vertexBuffer)
+	{
+		m_vertexBuffer->Release();
+		m_vertexBuffer = 0;
+	}
+
+	return;
+}
+
+ID3D11ShaderResourceView* ModelClass::GetTexture()
+{
+	return m_Texture->GetTexture();
+}
+
+bool ModelClass::LoadTexture( ID3D11Device* device, WCHAR* filename)
+{
+	bool result;
+
+	m_Texture = new TextureClass;
+	if (!m_Texture)
+	{
+		return false;
+	}
+
+	result= m_Texture->Initialize(device, filename);
+	if (!result)
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+void ModelClass::ReleaseTexture()
+{
+	if (m_Texture)
+	{
+		m_Texture->Shutdown();
+		delete m_Texture;
+		m_Texture = 0;
+	}
 
 	return;
 }
