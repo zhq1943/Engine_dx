@@ -89,6 +89,7 @@
   <ItemGroup>
     <None Include="Color.ps" />
     <None Include="Color.vs" />
+    <None Include="Cube.txt" />
     <None Include="light.ps" />
     <None Include="light.vs" />
     <None Include="texture.ps" />

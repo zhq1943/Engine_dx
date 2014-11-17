@@ -45,7 +45,7 @@ bool GraphicsClass::Initialize( int screenWidth, int screenHeigh, HWND hwnd )
 		return false;
 	}
 
-	m_camera->SetPosition(0.0f, 0.0f, -10.0f);
+	m_camera->SetPosition(0.0f, 0.0f, -5.0f);
 
 	m_model = new ModelClass;
 	if (!m_model)
@@ -53,7 +53,8 @@ bool GraphicsClass::Initialize( int screenWidth, int screenHeigh, HWND hwnd )
 		return false;
 	}
 
-	result = m_model->Initialize(m_D3D->GetDevice(), L"../Engine/tes.dds");
+	//result = m_model->Initialize(m_D3D->GetDevice(), L"../Engine/tes.dds");
+	result = m_model->Initialize(m_D3D->GetDevice(), "../Engine/data/Cube.txt", L"../Engine/data/tes.dds");
 	if (!result)
 	{
 		MessageBox(hwnd, L"model error", L"Error", MB_OK);
@@ -104,7 +105,7 @@ bool GraphicsClass::Initialize( int screenWidth, int screenHeigh, HWND hwnd )
 		return false;
 	}
 
-	m_Light->SetDiffuseColor(0.0f, 1.0f, 0.0f, 1.0f);
+	m_Light->SetDiffuseColor(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Light->SetDirection(0.0f, 0.0f, 1.0f);
 	return true;
 }
@@ -164,7 +165,7 @@ bool GraphicsClass::Frame()
 	bool result;
 
 	static float rotation = 0.0f;
-	rotation += (float)D3DX_PI*0.01f;
+	rotation += (float)D3DX_PI*0.005f;
 
 	if (rotation > 360)
 	{

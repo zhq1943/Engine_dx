@@ -94,5 +94,6 @@
     <None Include="light.ps" />
     <None Include="texture.vs" />
     <None Include="texture.ps" />
+    <None Include="Cube.txt" />
   </ItemGroup>
 </Project>
